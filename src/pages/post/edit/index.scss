@@ -1,0 +1,83 @@
+.page-post-edit{
+    .post-image {
+        width: 100%;
+    }
+    .movable-area{
+        position: relative;
+        .movable-view{
+            position: absolute;
+        }
+    }
+    .content-wrapper{
+        width: 100%;
+        .content-block{
+            width: 100%;
+        }
+    }
+    .viewtype-layout{
+        .at-float-layout__container {
+            height: 100%;
+            max-height: none;
+        }
+        .layout-body{
+            padding: 0;
+            min-height: none;
+            max-height: none;
+            .layout-body__content{
+                min-height: none;
+                max-height: none;
+            }
+        }
+        .floatLayout-header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px;
+            border-bottom: 1px solid #e7e7e7;
+        }
+        .floatLayout-body{
+            padding: 18px;
+            .floatLayout-list{
+                display: flex;
+                flex-direction: column;
+                .floatLayout-list-item{
+                    padding: 18px;
+                    border-bottom: 1px solid #e7e7e7;
+                    display: flex;
+                    align-items: flex-start;
+                    .floatLayout-list-item-check{
+                        width: 60px;
+                        height: 60px;
+                        flex-shrink: 0;
+                        flex-grow: 0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: left;
+                    }
+                    .floatLayout-list-item-content{
+                        width: 100%;
+                        .floatLayout-list-item-desc{
+                            width: 100%;
+                            font-size: 24px;
+                            color: #ccc;
+                        }
+                    }
+                    &:last-child{
+                        border: none;
+                    }
+                }
+            }
+        }
+        .input-wrapper{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .afterfix{
+                width: 1.5em;
+                flex-shrink: 0;
+                flex-grow: 0;
+            }
+        }
+    }
+    
+}

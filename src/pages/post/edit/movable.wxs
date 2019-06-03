@@ -1,0 +1,104 @@
+var startX = startY = 0;
+var lastLeft = lastTop = 0;
+
+function onlongpress(event, ins) {
+	var targetComp = ins.selectComponent('#' + event.currentTarget.id);
+	var movableAreaComp = ins.selectComponent('.movable-area');
+	var currentTarget = event.currentTarget;
+
+	targetComp.addClass('movable');
+	movableAreaComp.addClass('moving');
+
+	var touch = event.touches[0] || event.changedTouches[0];
+	
+	startX = touch.pageX;
+	startY = touch.pageY;
+
+	targetComp.setStyle({
+		'z-index': 2,
+		top: currentTarget.offsetTop + 'px',
+		left: currentTarget.offsetLeft + 'px',
+		transform: 'scale(0.9)'
+	})
+}
+function touchmove(event, ins) {
+  
+	var targetComp = ins.selectComponent('.movable');
+	if(!targetComp) return true;
+
+	var currentTarget = event.currentTarget;
+
+	var movableArea = ins.selectComponent('.movable-area').getDataset().position;
+	var movableView = targetComp.getDataset().position;
+
+	var touch = event.touches[0] || event.changedTouches[0];
+
+	var pageX = touch.pageX
+	var pageY = touch.pageY
+	
+	var left = 0
+	var top = pageY - startY + currentTarget.offsetTop
+
+	if(top < 0){
+		top = 0;
+	} else if(top > movableArea.height - movableView.height){
+		top = movableArea.height - movableView.height;
+	}
+	
+	
+
+	targetComp.setStyle({
+		left: left + 'px',
+		top: top + 'px',
+		'z-index': 2,
+		transform: 'scale(0.9)'
+	})
+
+	event.detail = {};
+	event.detail.deltaY = pageY - startY;
+	ins.callMethod('moveTouch', event);
+	
+	
+	startX = touch.pageX;
+	startY = touch.pageY;
+	
+	return false;
+}
+function touchend(event, ins) {
+    var targetComp = ins.selectComponent('.movable');
+	var movableAreaComp = ins.selectComponent('.movable-area');
+
+	if(!targetComp) return;
+
+	
+	//ins.callMethod('endTouch', event)
+	var top = event.currentTarget.offsetTop;
+	var left = event.currentTarget.offsetLeft;
+
+  	targetComp.setStyle({
+    	'z-index': 1,
+		top: top + 'px',
+		left: left + 'px',
+  	})
+	targetComp.removeClass('movable');
+	movableAreaComp.removeClass('movint');
+
+	startX = startY = 0;
+  	
+}
+
+function onscroll(event, ins) {
+    var targetComp = ins.selectComponent('.page-gift');
+	
+	
+	ins.callMethod('endTouch', event)
+	//console.log(JSON.stringify(targetComp))
+  	
+}
+
+module.exports = {
+  	onlongpress: onlongpress,
+  	touchmove: touchmove,
+    touchend: touchend,
+	onscroll: onscroll
+}
