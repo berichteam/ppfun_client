@@ -1,6 +1,7 @@
+$color-brand: #f44336;
+
 @import "~taro-ui/dist/style/index.scss";
 
-$main-color: #f44336;
 
 
 .image-desc-input{
@@ -11,4 +12,12 @@ $main-color: #f44336;
 
 .content-image{
     width: 100%;
+}
+
+.at-image-picker{
+    .at-image-picker__flex-box{
+        .at-image-picker__flex-item:first-child{
+            margin-left: 0;
+        }
+    }
 }

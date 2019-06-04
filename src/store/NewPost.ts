@@ -12,12 +12,33 @@ class NewPost implements NewPost{
 	@observable password: string | undefined = undefined
 	@observable fee = 0
 	@observable blurImages: string[] = []
-	@action setImages(images) {
-		this.images = images;
-		this.images.forEach(image=>{
-			image.id= removeNonChaNum(image.path);
-			this.getImageFromAlubm(image.path);
+	@action async setImages(images) {
+
+		for(const i in images) {
+			const image = images[i];
+			image.md5 = await new Promise((resolve, reject)=>{
+				Taro.getFileInfo({
+					filePath: image.path
+				})
+				.then(res=>{
+					resolve(res.digest)
+				})
+				.catch(e=>{
+					reject(e)
+				})
+			})
+
+		}
+		
+		this.images = images.filter((image, i)=>images.findIndex(img=>img.md5 === image.md5) === i).map(image=>{
+			this.getImageFromAlubm(image.path)
+
+			return {
+				...image,
+				id: removeNonChaNum(image.path),
+			};
 		})
+
 	}
 	@action setTitle(title) {
 		this.title = title
@@ -32,7 +53,7 @@ class NewPost implements NewPost{
 					width: res.width,
 					height: res.height,
 					orientation: res.orientation,
-					type: res.orientation
+					type: res.type
 				} as any)
 			})
 	}

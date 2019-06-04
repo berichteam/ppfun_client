@@ -1,11 +1,12 @@
 import { ComponentType } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Button, MovableArea, MovableView, ScrollView, Input } from '@tarojs/components'
+import { View, Button, MovableArea, MovableView, ScrollView, Input, Textarea } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
 import './index.scss'
-import { AtInput, AtCard, AtDivider, AtList, AtListItem, AtFloatLayout, AtButton, AtInputNumber, AtIcon } from 'taro-ui';
+import { AtInput, AtCard, AtDivider, AtList, AtListItem, AtFloatLayout, AtButton, AtInputNumber, AtIcon, AtImagePicker } from 'taro-ui';
 import { ContentBlock, AlbumSelector } from '../../../components';
 import classnames from 'classnames'
+import { ObservableArray } from 'mobx/lib/types/observablearray';
 
 type Props = {
 	newPost: NewPost;
@@ -37,9 +38,8 @@ class Edit extends Component {
 		
 	}
 	
-	handleTitleChange = (value) => {
+	handleTitleChange = ({detail: {value}}) => {
 		this.props.newPost.setTitle(value);
-		return value;
 	}
 	handleFloatLayout(value) {
 		this.setState({
@@ -84,7 +84,20 @@ class Edit extends Component {
 	componentWillUnmount(){
 		this.props.newPost.clear()
 	}
-
+	onImageChange(images){
+		this.props.newPost.setImages(images.map(image=>image.file))
+		console.log(images)
+	}
+	onImageClick(index){
+		Taro.navigateTo({
+			url: `/pages/post/preview/index?imageIndex=${index}`
+		})
+	}
+	onPostClick(index){
+		Taro.navigateTo({
+			url: `/pages/post/complete/index?hash=31267ttyut3213gbgcds`
+		})
+	}
 	render() {
 		const { 
 			newPost, 
@@ -107,30 +120,27 @@ class Edit extends Component {
 			<View 
 				className='page-post-edit'
 			>
-				<AtInput
-					name='title'
-					type='text'
-					placeholder='默认标题'
-					value={title}
-					onChange={this.handleTitleChange}
-				/>
 				<View 
 					className="content-wrapper" 
 				>
 					{
-						images.map((image, i) => {
-							return (
-								<View
-									id={image.id}
-									className={classnames('content-block')}
-									key={image.id}
-								>
-									<ContentBlock image={image} setImage={setImage.bind(newPost)} />
-
-								</View>
-							)
-						})
+						!floatLayoutOpen
+						&&
+						<Textarea 
+							placeholder='说点什么'
+							value={title || ""}
+							onInput={this.handleTitleChange}
+							style='background:#fff;width:100%;min-height:80px;padding:0 30rpx;' 
+							autoHeight
+						/>
 					}
+					
+					<AtImagePicker
+						multiple
+						files={images.map(image=>({file: image, url: image.path}))}
+						onChange={this.onImageChange.bind(this)}
+						onImageClick={this.onImageClick.bind(this)}
+					/>
 				</View>
 				<AtList>
 					<AtListItem
@@ -144,12 +154,14 @@ class Edit extends Component {
 					/>
 				
 				</AtList>
+				<AtButton type='primary' onClick={this.onPostClick.bind(this)}>发布</AtButton>
 				<AtFloatLayout 
 					className="viewtype-layout"
 					isOpened={floatLayoutOpen}
 				>
 					<View className="floatLayout-header">
 						<View
+							style={{fontSize: '16px'}}
 							onClick={this.handleFloatLayout.bind(this, false)}
 						>
 							取消

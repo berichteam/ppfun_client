@@ -47,3 +47,14 @@ interface SysInfo {
 	};
 	get: Function
 }
+
+interface LoginUserInfo {
+	info: {
+		userInfo: {
+			nickName: string;
+			avatarUrl: string
+		}
+		
+	};
+	set: Function
+}

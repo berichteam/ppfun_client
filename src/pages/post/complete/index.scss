@@ -1,0 +1,16 @@
+.page-post-complete{
+    .qrcode{
+        width: 100%;
+    }
+    .at-card{
+        .at-card__header{
+            .at-card__header-thumb{
+                flex: 0 0 64px;
+                height: 64px;
+                image{
+                    border-radius: 5px; 
+                }
+            }
+        }
+    }
+}

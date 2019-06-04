@@ -264,6 +264,14 @@
     component-type "^1.2.1"
     join-component "^1.1.0"
 
+"@tarojs/async-await@^1.3.0-beta.6":
+  version "1.3.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@tarojs/async-await/-/async-await-1.3.0-beta.6.tgz#3d5aaf436615f7eef2c995bfc6ba057fcdc83941"
+  integrity sha512-bjb9O7wsDAt8tWnPxI/DHf0LDaaupo9m+TzXzLr7GkJG6L/EwEcS5TF63dWplbSFd2Dgvd4Ouztm7fnPlg271w==
+  dependencies:
+    promise-polyfill "^7.1.2"
+    regenerator-runtime "^0.11.1"
+
 "@tarojs/components@1.3.0-beta.3":
   version "1.3.0-beta.3"
   resolved "https://registry.yarnpkg.com/@tarojs/components/-/components-1.3.0-beta.3.tgz#f41684cf0ab0176e51264d9faecac6a2f1269a5c"
@@ -7597,6 +7605,11 @@ promise-inflight@^1.0.1:
   resolved "https://registry.yarnpkg.com/promise-inflight/-/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
   integrity sha1-mEcocL8igTL8vdhoEputEsPAKeM=
 
+promise-polyfill@^7.1.2:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/promise-polyfill/-/promise-polyfill-7.1.2.tgz#ab05301d8c28536301622d69227632269a70ca3b"
+  integrity sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==
+
 promise@^7.1.1:
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/promise/-/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
@@ -8035,7 +8048,7 @@ regenerator-runtime@^0.10.5:
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.10.5.tgz#336c3efc1220adcedda2c9fab67b5a7955a33658"
   integrity sha1-M2w+/BIgrc7dosn6tntaeVWjNlg=
 
-regenerator-runtime@^0.11.0:
+regenerator-runtime@^0.11.0, regenerator-runtime@^0.11.1:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==

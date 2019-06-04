@@ -66,7 +66,7 @@ class AlbumSelector extends Taro.Component {
 		const {images = [], value = []} = this.props;
 		const {viewWidth} = this.state;
 
-		const gap = 10;
+		const gap = 5;
 		const itemWidth = (viewWidth - 3*gap) / 4;
 
 		return (
