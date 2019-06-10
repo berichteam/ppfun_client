@@ -1,15 +1,43 @@
+page{
+    background-color: #f7f7f7;
+}
 .page-post-complete{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding: 0 20px 40px 20px;;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     .qrcode{
         width: 100%;
     }
     .at-card{
+        border: none;
         .at-card__header{
+            border: none;
             .at-card__header-thumb{
-                flex: 0 0 64px;
-                height: 64px;
+                flex: 0 0 84px;
+                height: 84px;
                 image{
-                    border-radius: 5px; 
+                    border-radius: 10px; 
                 }
+            }
+        }
+        .at-card__content-info{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .share-desc{
+                font-size: 24px;
+                color: #999;
+                margin: 20px 0 60px 0;
+            }
+            .share-btn{
+                margin-bottom: 40px;
             }
         }
     }

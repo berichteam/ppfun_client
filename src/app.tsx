@@ -36,7 +36,8 @@ class App extends Component {
       'pages/main/index',
       'pages/post/edit/index',
       'pages/post/preview/index',
-      'pages/post/complete/index'
+      'pages/post/complete/index',
+      'pages/article/index'
     ],
     window: {
       backgroundTextStyle: 'light',

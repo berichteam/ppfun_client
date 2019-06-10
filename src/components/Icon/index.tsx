@@ -14,6 +14,7 @@ type Props = {
 	color?: string;
 	className?: string;
 	image?: boolean;
+	size?: string
 }
 
 
@@ -25,14 +26,14 @@ interface Icon {
 class Icon extends Taro.Component {
 
 	render() {
-		const {type, className, color, image} = this.props;
+		const {type, className, color, image, size} = this.props;
 		if(image){
 			return (
 				<Image className={classnames(className, 'image-icon')} src={type}/>
 			)
 		}
 		return (
-			<Text className={classnames(className, 'iconfont', `icon${type}`)} style={{color}}/>
+			<Text className={classnames(className, 'iconfont', `icon${type}`)} style={{color, fontSize: size}}/>
 
         )
 	}

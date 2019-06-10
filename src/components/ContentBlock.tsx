@@ -1,19 +1,17 @@
 import Taro from '@tarojs/taro'
-import PImage from './Image';
-import { AtInput } from 'taro-ui';
 import './index.scss';
-import { View } from '@tarojs/components';
+import { View, Text, Image } from '@tarojs/components';
 
-type movableView = {
-	width: number;
-	height: number;
-	backgroundColor: string;
-}
 
 type Props = {
-	image: image;
-	size?: movableView
-	setImage: Function;
+	onImageClick?: Function;
+	image: {
+		id: number;
+		desc: string;
+		url: string;
+		width: number;
+		height: number;
+	};
 }
 
 interface ContentBlock {
@@ -21,36 +19,19 @@ interface ContentBlock {
 }
 
 class ContentBlock extends Taro.Component {
-	constructor() {
-		super(...arguments);
-	}
-
-	componentWillMount(){
-		
-	}
-	handleDescChange(path, desc){
-		this.props.setImage({
-			path,
-			desc
-		})
+	onImageClick(url){
+		const {onImageClick} = this.props;
+		onImageClick && onImageClick(url);
 	}
 	render() {
-		const {image, size} = this.props;
+		const {image} = this.props;
 
 		if(!image) return null;
 
 		return (
 			<View className="content-block-wrapper">
-				<PImage width={size?(size.width - 32):undefined} image={image}></PImage>
-				<AtInput
-					className="image-desc-input"
-					name='title'
-					type='text'
-					placeholder='图片描述'
-					value={image.desc}
-					border={false}
-					onChange={this.handleDescChange.bind(this, image.path)}
-				/>
+				<Image mode="widthFix" src={image.url} onClick={this.onImageClick.bind(this, image.url)}></Image>
+				<Text>{image.desc}</Text>
 			</View>
 
         )

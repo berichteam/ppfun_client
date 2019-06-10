@@ -31,7 +31,7 @@ class Edit extends Component {
 		blurImageTouched: false
 	}
 	config: Config = {
-		navigationBarTitleText: '编辑',
+		navigationBarTitleText: '',
 	}
 	touchTimer = {}
 	componentDidMount(){
@@ -95,7 +95,7 @@ class Edit extends Component {
 	}
 	onPostClick(index){
 		Taro.navigateTo({
-			url: `/pages/post/complete/index?hash=31267ttyut3213gbgcds`
+			url: `/pages/post/complete/index?hash=1a2b3c4def`
 		})
 	}
 	render() {
@@ -135,15 +135,16 @@ class Edit extends Component {
 						/>
 					}
 					
-					<AtImagePicker
-						multiple
-						files={images.map(image=>({file: image, url: image.path}))}
-						onChange={this.onImageChange.bind(this)}
-						onImageClick={this.onImageClick.bind(this)}
-					/>
 				</View>
-				<AtList>
+				<AtImagePicker
+					multiple
+					files={images.map(image=>({file: image, url: image.path}))}
+					onChange={this.onImageChange.bind(this)}
+					onImageClick={this.onImageClick.bind(this)}
+				/>
+				<AtList hasBorder={false}>
 					<AtListItem
+						hasBorder={false}
 						title='谁可以看'
 						arrow='right'
 						onClick={this.handleFloatLayout.bind(this, true)}

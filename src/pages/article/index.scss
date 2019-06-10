@@ -1,0 +1,114 @@
+.page-article{
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    
+    .page-post-scroll{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-position: -100rpx center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        margin-top: -500px;
+        height: calc(100% + 500px);
+        &.showTopExtro{
+            margin-top: 0;
+            height: 100%;
+            
+        }
+    }
+    .top-extro-wrapper{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        background: #f7f7f7;
+        height: 500px;
+        image{
+            width: 300px;
+            height: 300px;
+            margin-bottom: 30px;
+        }
+    }
+    .main-wrapper{
+
+    }
+    .author-wrapper{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 32px;
+        .at-avatar{
+            flex-grow: 0;
+            flex-shrink: 0;
+            margin-bottom: 18px;
+        }
+        &>view{
+            display: flex;
+            flex-direction: column;
+            text:last-child{
+                font-size: 32px;
+                color: #666;
+            }
+        }
+    }
+    .article-wrapper{
+        margin-bottom: 60px;
+        &>text:first-child{
+            padding: 20px 32px;
+            display: inline-block;
+            width: 100%;
+            word-break: break-all;
+            text-align: center;
+            box-sizing: border-box;
+        }
+    }
+    .article-info{
+        display: flex;
+        padding: 32px;
+        justify-content: center;
+        &>view{
+            margin-right: 32px;
+            .at-icon{
+                margin-right: 10px;
+            }
+            text{
+                font-size: 28px;
+                color: #999;
+            }
+        }
+    }
+    .article-gift{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        &>view{
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f44336;
+            margin: 20px 0;
+        }
+        text{
+            font-size: 28px;
+            color: #666;
+            &:last-child{
+                color: #999;
+            }
+        }
+    }
+    .border{
+        margin: 0 auto;
+        width: 30%;
+        border-top: 1px solid #e7e7e7;
+    }
+}

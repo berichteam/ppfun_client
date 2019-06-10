@@ -1,7 +1,20 @@
 .content-block-wrapper{
     width: 100%;
-    padding: 32px;
+    padding: 0;
     box-sizing: border-box;
+    image{
+        width: 100%;
+    }
+    text{
+        padding: 10px 32px 20px 32px;
+        width:100%;
+        display:inline-block;
+        box-sizing:border-box;
+        word-break: break-all;
+        font-size: 30px;
+        color: #666;
+        text-align: center;
+    }
     
 }
 

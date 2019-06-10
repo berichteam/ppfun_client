@@ -1,8 +1,8 @@
 import { ComponentType } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Image } from '@tarojs/components'
+import { View, Image, Text } from '@tarojs/components'
 import './index.scss'
-import { AtCard } from 'taro-ui';
+import { AtCard, AtButton } from 'taro-ui';
 import { observer, inject } from '@tarojs/mobx'
 
 type Props = {
@@ -24,6 +24,8 @@ interface Complete {
 class Complete extends Component {
 	config: Config = {
 		navigationBarTitleText: '皮皮乐',
+		navigationBarBackgroundColor: '#f7f7f7',
+
 	}
 	constructor(props){
 		super(props);
@@ -37,7 +39,28 @@ class Complete extends Component {
 	componentDidMount(){
 	
 	}
-	
+	onShareAppMessage = (res) => {
+		if (res.from === 'button') {
+			// 来自页面内转发按钮
+			console.log(res.target)
+		}
+		return {
+			title: "转发",
+			path: `/pages/article/index?article=${this.state.hash}`,
+			imageUrl: `http://ppfun.fun/qrcode/A/${this.state.hash}.png`,
+
+		}
+	}
+	previewImage(){
+		Taro.previewImage({
+			urls: [`http://ppfun.fun/qrcode/A/${this.state.hash}.png`]
+		})
+	}
+	article(){
+		Taro.navigateTo({
+			url: '/pages/article/index?article=r3erfewrewr'
+		})
+	}
 	render() {
 		
 		const {hash} = this.state;
@@ -50,8 +73,10 @@ class Complete extends Component {
 					title={userInfo.nickName}
 					thumb={userInfo.avatarUrl}
 				>
-					<Image className="qrcode" mode="aspectFit" src={`http://18.217.193.175/qrcode/artical/${hash}.png`} />
-					
+					<Image onClick={this.previewImage.bind(this)} className="qrcode" mode="aspectFit" src={`http://ppfun.fun/qrcode/A/${hash}.png`} />
+					<Text onClick={this.article.bind(this)} className="share-desc">分享可以让更多的人访问到你的作品哦</Text>
+					<AtButton className="share-btn" circle type='primary' size='small' openType="share">分享</AtButton>
+
 				</AtCard>
 			</View>
 
