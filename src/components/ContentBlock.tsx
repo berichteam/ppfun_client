@@ -5,13 +5,7 @@ import { View, Text, Image } from '@tarojs/components';
 
 type Props = {
 	onImageClick?: Function;
-	image: {
-		id: number;
-		desc: string;
-		url: string;
-		width: number;
-		height: number;
-	};
+	image: articleImage;
 }
 
 interface ContentBlock {
@@ -30,7 +24,7 @@ class ContentBlock extends Taro.Component {
 
 		return (
 			<View className="content-block-wrapper">
-				<Image mode="widthFix" src={image.url} onClick={this.onImageClick.bind(this, image.url)}></Image>
+				<Image mode="widthFix" src={image.originUrl} onClick={this.onImageClick.bind(this, image.originUrl)}></Image>
 				<Text>{image.desc}</Text>
 			</View>
 

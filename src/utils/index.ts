@@ -1,4 +1,6 @@
 import moment from 'moment';
+import Taro from '@tarojs/taro';
+import store from '../store/store'
 
 export function getDefualtValue(value, defaultValue) {
     if(value !== undefined){
@@ -28,3 +30,19 @@ export function readableTime(time) {
     }
 
 }
+
+
+export async function request(args) {
+    return Taro.request({
+        ...args,
+        header: {
+            "X-Auth-Token": store.loginUserInfo.token,
+            ...args.header
+        },
+    })
+}
+
+export const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+
+export const defaultPageSize = 10

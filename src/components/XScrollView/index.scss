@@ -1,0 +1,56 @@
+  
+.Scroll-View {
+    height: calc(100% + 40px);
+    transform: translateY(-40px);
+    transition: all 0.1s ease-in-out 0;
+    &.refresh {
+        transform: translateY(0);
+    }
+    &.finish {
+        animation: finish 0.5s;
+    }
+    .pulldown {
+        height: 40px;
+        width: 100%;
+        line-height: 40px;
+        text-align: center;
+        text {
+            color: #222;
+        }
+    }
+
+    .loadmore {
+        height: 60px;
+        width: 100%;
+        line-height: 60px;
+        text-align: center;
+        text {
+            color: #444;
+        }
+    }
+}
+  
+  
+@keyframes finish {
+    from {transform: translateY(0)}
+    to {transform: translateY(-40px)}
+}
+  
+  
+  
+  
+  
+  
+@keyframes loading {
+    0% {transform: rotate(0deg)}
+    50% {transform: rotate(180deg)}
+    100% {transform: rotate(360deg)}
+}
+  
+.loading {
+    display: inline-block;
+    transform-origin: 50% 50%;
+    animation: loading 1s linear infinite;
+}
+  
+  

@@ -1,11 +1,8 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { Provider, observer, inject } from '@tarojs/mobx';
 import '@tarojs/async-await'
-import NewPost from './store/NewPost'
-import SysInfo from './store/SysInfo';
-import LoginUserInfo from './store/LoginUserInfo';
-
-
+import store from './store/store'
+import './mock'
 import './app.scss'
 
 // 如果需要在 h5 环境中开启 React Devtools
@@ -15,11 +12,7 @@ import './app.scss'
 // }
 
 
-const store = {
-  newPost: new NewPost(),
-  sysInfo: new SysInfo(),
-  loginUserInfo: new LoginUserInfo()
-}
+
 class App extends Component {
 
   /**
@@ -32,8 +25,8 @@ class App extends Component {
 
   config: Config = {
     pages: [
-      'pages/login/index',
       'pages/main/index',
+      'pages/login/index',
       'pages/post/edit/index',
       'pages/post/preview/index',
       'pages/post/complete/index',

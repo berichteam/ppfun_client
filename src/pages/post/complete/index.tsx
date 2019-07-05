@@ -10,7 +10,7 @@ type Props = {
 }
 
 type State = {
-	hash: string;
+	articleId: string;
 }
 
 interface Complete {
@@ -29,9 +29,9 @@ class Complete extends Component {
 	}
 	constructor(props){
 		super(props);
-		const hash = this.$router.params.hash || "";
+		const articleId = this.$router.params.articleId || "";
 		this.state = {
-			hash
+			articleId
 		}
 	
 	}
@@ -46,14 +46,14 @@ class Complete extends Component {
 		}
 		return {
 			title: "转发",
-			path: `/pages/article/index?article=${this.state.hash}`,
-			imageUrl: `http://ppfun.fun/qrcode/A/${this.state.hash}.png`,
+			path: `/pages/article/index?article=${this.state.articleId}`,
+			imageUrl: `http://ppfun.fun/qrcode/A/${this.state.articleId}.png`,
 
 		}
 	}
 	previewImage(){
 		Taro.previewImage({
-			urls: [`http://ppfun.fun/qrcode/A/${this.state.hash}.png`]
+			urls: [`http://ppfun.fun/qrcode/A/${this.state.articleId}.png`]
 		})
 	}
 	article(){
@@ -63,7 +63,7 @@ class Complete extends Component {
 	}
 	render() {
 		
-		const {hash} = this.state;
+		const {articleId} = this.state;
 		const {loginUserInfo: {info: {userInfo}}} = this.props;
 		return (
 			<View 
@@ -73,7 +73,7 @@ class Complete extends Component {
 					title={userInfo.nickName}
 					thumb={userInfo.avatarUrl}
 				>
-					<Image onClick={this.previewImage.bind(this)} className="qrcode" mode="aspectFit" src={`http://ppfun.fun/qrcode/A/${hash}.png`} />
+					<Image onClick={this.previewImage.bind(this)} className="qrcode" mode="aspectFit" src={`http://ppfun.fun/qrcode/A/${articleId}.png`} />
 					<Text onClick={this.article.bind(this)} className="share-desc">分享可以让更多的人访问到你的作品哦</Text>
 					<AtButton className="share-btn" circle type='primary' size='small' openType="share">分享</AtButton>
 

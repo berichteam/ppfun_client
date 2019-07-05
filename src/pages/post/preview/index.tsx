@@ -3,10 +3,7 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Button, MovableArea, MovableView, ScrollView, Input, Textarea, Swiper, SwiperItem, Image } from '@tarojs/components'
 import { observer, inject } from '@tarojs/mobx'
 import './index.scss'
-import { AtInput, AtCard, AtDivider, AtList, AtListItem, AtFloatLayout, AtButton, AtInputNumber, AtIcon, AtImagePicker } from 'taro-ui';
-import { ContentBlock, AlbumSelector } from '../../../components';
-import classnames from 'classnames'
-import { ObservableArray } from 'mobx/lib/types/observablearray';
+
 
 type Props = {
 	newPost: NewPost;

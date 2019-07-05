@@ -46,21 +46,22 @@ class Edit extends Component {
 			floatLayoutOpen: value
 		})
 	}
-	getViewTypeText(viewType){
-		let viewTypeText = '公开'
-		switch (viewType) {
-			case 1:
-				viewTypeText = "VIP可见"
-				break;
+	getAuthorityText(authority){
+		let authorityText = '公开'
+		switch (authority) {
 			case 2:
-				viewTypeText = "加密"
+				authorityText = "VIP可见"
 				break;
 			case 3:
-				viewTypeText = "付费可见"
+				authorityText = "付费可见"
+				break;
+			case 4:
+				authorityText = "加密"
+
 				break;
 		}
 
-		return viewTypeText
+		return authorityText
 	}
 	changePassword(value){
 		this.props.newPost.setPassword(value);
@@ -74,8 +75,8 @@ class Edit extends Component {
 			blurImageTouched: true
 		})
 	}
-	changeViewType(id){
-		this.props.newPost.setViewType(id);
+	changeAuthority(id){
+		this.props.newPost.setAuthority(id);
 		if(!this.state.blurImageTouched && (id === 1 || id === 3)){
 			this.props.newPost.setBlurImages(this.props.newPost.images.map(image=>image.id));
 		}
@@ -93,16 +94,22 @@ class Edit extends Component {
 			url: `/pages/post/preview/index?imageIndex=${index}`
 		})
 	}
-	onPostClick(index){
-		Taro.navigateTo({
-			url: `/pages/post/complete/index?hash=1a2b3c4def`
-		})
+	onPostClick(){
+		this.props.newPost.post()
+			.then(({id})=>{
+				Taro.navigateTo({
+					url: `/pages/post/complete/index?articleId=${id}`
+				})
+			})
+			
+		
 	}
 	render() {
 		const { 
 			newPost, 
 			newPost: { 
-				viewType,
+				status,
+				authority,
 				title, 
 				images, 
 				fee,
@@ -148,16 +155,16 @@ class Edit extends Component {
 						title='谁可以看'
 						arrow='right'
 						onClick={this.handleFloatLayout.bind(this, true)}
-						extraText={this.getViewTypeText(viewType)}
+						extraText={this.getAuthorityText(authority)}
 						iconInfo={{
 							value: 'lock'
 						}}
 					/>
 				
 				</AtList>
-				<AtButton type='primary' onClick={this.onPostClick.bind(this)}>发布</AtButton>
+				<AtButton type='primary' loading={status === 'posting'} onClick={this.onPostClick.bind(this)}>发布</AtButton>
 				<AtFloatLayout 
-					className="viewtype-layout"
+					className="authority-layout"
 					isOpened={floatLayoutOpen}
 				>
 					<View className="floatLayout-header">
@@ -182,62 +189,45 @@ class Edit extends Component {
 					<View className="floatLayout-body">
 						<View className="floatLayout-list">
 							{
-								[0,1,2,3].map((id, index)=>{
+								[1,2,3,4].map((id, index)=>{
 									return (
 										<View 
 											key={id} 
 											className="floatLayout-list-item"
-											onClick={this.changeViewType.bind(this, id)}
+											onClick={this.changeAuthority.bind(this, id)}
 										>
 											<View className="floatLayout-list-item-check">
 												{
-													viewType === id
+													authority === id
 													&&
 													<AtIcon value="check" size="20px" color="#f44336"/>
 
 												}
 											</View>
 											<View className="floatLayout-list-item-content">
-												<View className="floatLayout-list-item-title">{this.getViewTypeText(id)}</View>
+												<View className="floatLayout-list-item-title">{this.getAuthorityText(id)}</View>
 												{
-													id === 0
+													id === 1
 													?
 													<View className="floatLayout-list-item-desc">所有用户可见</View>
 													:
-													id === 1
+													id === 2
 													?
 													<View>
 														<View className="floatLayout-list-item-desc">VIP用户可见</View>
 														{
-															viewType === 1
+															authority === 2
 															&&
 															<AlbumSelector images={images} value={blurImages} onChange={this.onAlbumSelectChange.bind(this)}/>
 														}
 													</View>
 													:
-													id === 2
+													id === 3
 													?
-													<View>
-														<View className="floatLayout-list-item-desc">输入密码后可见</View>
-														{
-															viewType === 2
-															&&
-															<Input 
-																focus
-																type='text'
-																password 
-																placeholder='请输入密码'
-																value={password}
-																onInput={this.changePassword.bind(this)}
-															/>
-															
-														}
-													</View>
-													:
 													<View>
 														<View className="floatLayout-list-item-desc">支付费用后可见</View>
 														{
-															viewType === 3
+															authority === 3
 															&&
 															<View>
 																<View className="input-wrapper">
@@ -255,6 +245,24 @@ class Edit extends Component {
 														}
 														
 													</View>
+													:
+													<View>
+														<View className="floatLayout-list-item-desc">输入密码后可见</View>
+														{
+															authority === 4
+															&&
+															<Input 
+																focus
+																type='text'
+																password 
+																placeholder='请输入密码'
+																value={password}
+																onInput={this.changePassword.bind(this)}
+															/>
+															
+														}
+													</View>
+													
 												}
 											</View>
 										</View>

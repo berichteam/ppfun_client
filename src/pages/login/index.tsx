@@ -50,11 +50,18 @@ class Login extends Component {
 		
 	}
 	getUserInfo({detail}){
-		console.log(detail)
 		this.props.loginUserInfo.set(detail);
-		Taro.redirectTo({
-			url: '/pages/main/index'
-		})
+		this.props.loginUserInfo.thirdLogin()
+			.then(data=>{
+				console.log(data)
+				Taro.redirectTo({
+					url: '/pages/main/index'
+				})
+			})
+			.catch(e=>{
+				console.log(e)
+			})
+		
 	}
 	render() {
 		const {hasUserInfo} = this.state;

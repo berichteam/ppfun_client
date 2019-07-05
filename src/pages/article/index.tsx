@@ -8,96 +8,40 @@ import {ContentBlock, PIcon} from '../../components'
 import {readableTime} from '../../utils'
 import classnames from 'classnames';
 
-
+type State = {
+	showExtra: 0|1
+}
 type Props = {
 	loginUserInfo: LoginUserInfo;
+	articles: Articles
 }
 
-type image = {
-	id: number;
-	url: string;
-	width: number;
-	height: number;
-	desc: string;
-}
-type article = {
-	viewType: viewType;
-	title: string;
-	images: image[];
-	createdAt: Date;
-	giftCount: number;
-	viewCount: number;
-	starCount: number;
-}
 
-type author = {
-	nickName: string;
-	avatarUrl: string;
-	id: string
-}
-
-declare enum showExtra {
-	none,
-	header,
-	footer
-}
-
-type State = {
-	article: article;
-	author: author;
-	showExtra: showExtra;
-}
-
-interface Login {
-	state: State;
+interface Article {
 	props: Props;
+	state:State
 }
 
 
-@inject('loginUserInfo')
+@inject('loginUserInfo', 'articles')
 @observer
-class Login extends Component {
+class Article extends Component {
 	config: Config = {
 		navigationBarTitleText: '',
+		disableScroll: true,
 	}
 	state = {
-		showExtra: 0,
-		author: {
-			nickName: "Goodwin",
-			avatarUrl: "https://wx.qlogo.cn/mmopen/vi_32/ZxBlJ7BELiap56IOFbqZVibkLIBZ75pq3BiaWbaHmEXuHGvhEcGNRiadwyScibJAzvwxa9jDnxiasF1x8j4Vgltle6ng/132"
-		},
-		article: {
-			viewType: 0,
-			title: "",
-			images: [{
-				id: 1,
-				url: "https://pic3.zhimg.com/80/v2-5faa2ffcac1992a2663c8746abbde9ae_hd.jpg",
-				width: 2304,
-				height: 1440,
-				desc: "3214er321r32fewfewfewtfre4cfwrv4r43vr342cfr43cvr43vcr43vr43rv43cfr43cvr23r32"
-			},{
-				id: 2,
-				url: "https://pic3.zhimg.com/80/v2-5faa2ffcac1992a2663c8746abbde9ae_hd.jpg",
-				width: 2304,
-				height: 1440,
-				desc: "rfd32r2r32r2"
-			},{
-				id: 3,
-				url: "https://pic3.zhimg.com/80/v2-5faa2ffcac1992a2663c8746abbde9ae_hd.jpg",
-				width: 2304,
-				height: 1440,
-				desc: "f32f43"
-			}],
-			createdAt: 1559718303,
-			giftCount: 3,
-			viewCount: 102,
-			starCount: 11
-		}
+		showExtra: 0
+	}
+	componentWillMount(){
+		this.props.articles.getArticleById(this.$router.params.id);
 	}
 	previewImage(current){
+		const article = this.props.articles.get(this.$router.params.id);
+
 		Taro.previewImage({
 			current,
-			urls: this.state.article.images.map(image=>image.url)
+			urls: article.images.map(image=>image.originUrl)
 		})
 	}
 	onShareAppMessage = (res) => {
@@ -107,7 +51,7 @@ class Login extends Component {
 		}
 		return {
 			title: "转发",
-			imageUrl: `http://ppfun.fun/qrcode/A/${this.$router.params.article}.png`,
+			imageUrl: `https://ppfun.fun/qrcode/A/${this.$router.params.id}.png`,
 
 		}
 	}
@@ -116,7 +60,7 @@ class Login extends Component {
 			this.setState({
 				showExtra: 1
 			})
-		} else if(scrollTop >= 250 && this.state.showExtra !== 0){
+		} else if(scrollTop >= 150 && this.state.showExtra !== 0){
 			this.setState({
 				showExtra: 0
 			})
@@ -125,34 +69,37 @@ class Login extends Component {
 	}
 	previewQrCode(){
 		Taro.previewImage({
-			urls: [`http://ppfun.fun/qrcode/A/${this.$router.params.article}.png`]
+			urls: [`https://ppfun.fun/qrcode/A/${this.$router.params.article}.png`]
 		})
 	}
 	render() {
-		const {article, author, showExtra} = this.state;
-		return (
-			<View 
-				className='page-article'
+		const {showExtra} = this.state;
+		if(this.$router.params.id === undefined){
+			return null
+		}
 
+		const article = this.props.articles.get(this.$router.params.id)
+		const wechat = article.author.social.find(social=>social.socialType === 'wechat') || {avatarUrl: "", nickname: ""};
+		return (
+			<ScrollView 
+				scrollY
+				onScroll={this.scrollToUpper.bind(this)}
+				// onScrollToUpper={this.scrollToUpper.bind(this)}
+				className={classnames('page-article', {'showTopExtro': showExtra === 1})}
 			>
-				<ScrollView 
-					scrollY
-					onScroll={this.scrollToUpper.bind(this)}
-					// onScrollToUpper={this.scrollToUpper.bind(this)}
-					className={classnames('page-post-scroll', {'showTopExtro': showExtra === 1})}
-				>
+				<View className="page-wrapper">
 					<View 
 						className={classnames("top-extro-wrapper")}
 					>
-						<Image onClick={this.previewQrCode.bind(this)} src={`http://ppfun.fun/qrcode/A/${this.$router.params.article}.png`}/>
+						<Image onClick={this.previewQrCode.bind(this)} src={`https://ppfun.fun/qrcode/A/${this.$router.params.id}.png`}/>
 						<AtButton className="share-btn" circle type='primary' size='small' openType="share">分享</AtButton>
 
 					</View>
 					<View className="main-wrapper">
 						<View className="author-wrapper">
-							<AtAvatar image={author.avatarUrl}></AtAvatar>
+							<AtAvatar image={wechat.avatarUrl}></AtAvatar>
 							<View>
-								<Text>{author.nickName}</Text>
+								<Text>{wechat.nickname}</Text>
 							</View>
 							
 						</View>
@@ -190,14 +137,12 @@ class Login extends Component {
 							</View>
 						</View>
 					</View>
-				</ScrollView>
-				
-				
-			</View>
+				</View>
+			</ScrollView>
 
 
 		)
 	}
 }
 
-export default Login as ComponentType
+export default Article as ComponentType

@@ -4,21 +4,19 @@
     right: 0;
     left: 0;
     bottom: 0;
-    
-    .page-post-scroll{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-position: -100rpx center;
-        background-repeat: no-repeat;
-        background-size: 100%;
-        margin-top: -500px;
-        height: calc(100% + 500px);
-        &.showTopExtro{
-            margin-top: 0;
-            height: 100%;
-            
-        }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-position: -100rpx center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    height: calc(100% + 500px);
+    transform: translateY(-500px);
+    &.showTopExtro{
+        transform: translateY(0);        
+    }
+    .page-wrapper{
+        height: calc(100% + 1px);
     }
     .top-extro-wrapper{
         display: flex;
